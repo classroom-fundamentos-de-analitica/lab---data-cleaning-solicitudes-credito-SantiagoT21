@@ -13,12 +13,16 @@ from datetime import datetime
 
 def lower_del_special_chr(df,header):
     for column in header:
-        df[column] = df[column].str.lower().apply(lambda x: x.replace('_', ' ') and x.replace('-', ' '))
+        df[column] = df[column].str.lower()
+        df[column] = df[column].apply(lambda x: x.replace('_', ' '))
+        df[column] = df[column].apply(lambda x: x.replace('-', ' '))
     
     return df
 
 def fix_format(df):
-    df['monto_del_credito'] = df['monto_del_credito'].str.replace("\$[\s*]", "").str.replace(",", "").str.replace("\.00", "")
+    df['monto_del_credito'] = df['monto_del_credito'].str.replace("\$[\s*]", "")
+    df['monto_del_credito'] = df['monto_del_credito'].str.replace(",", "")
+    df['monto_del_credito'] = df['monto_del_credito'].str.replace("\.00", "")
     df['monto_del_credito'] = df['monto_del_credito'].astype(int)
 
     df['comuna_ciudadano'] = df['comuna_ciudadano'].astype(float)
